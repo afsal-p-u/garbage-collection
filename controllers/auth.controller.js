@@ -1,7 +1,7 @@
 const CryptoJS = require('crypto-js')
 const jwt = require('jsonwebtoken')
 
-const UserModel = require('../models/user.models')
+const UserModel = require('../models/user.model')
 
 // register user
 const createUser = async (req, res) => {
@@ -13,6 +13,11 @@ const createUser = async (req, res) => {
     const contactCheck = await UserModel.findOne({ contact: req.body.contact })
     if (contactCheck) {
         return res.status(400).json("Contact number already exist!")
+    }
+
+    const nameCheck = await UserModel.findOne({ name: req.body.name })
+    if (nameCheck) {
+        return res.status(400).json("Try different name!")
     }
 
     const newUser = new UserModel({
