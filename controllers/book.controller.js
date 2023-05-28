@@ -26,4 +26,21 @@ const getUserOrders = async (req, res) => {
     }
 }
 
-module.exports = { bookNew, getUserOrders }
+// admin
+// get all pending orders
+const getPedingOrdersAdmin = async (req, res) => {
+    try {
+        const pendingOrders = await BookModel.find({ status: "pending" })
+
+        if (pendingOrders) {
+            return res.status(200).json(pendingOrders)
+        } else {
+            return res.status(400).json("No pending orders")
+        }
+
+    } catch (err) {
+        return res.status(400).json(err)
+    }
+}
+
+module.exports = { bookNew, getUserOrders, getPedingOrdersAdmin }
