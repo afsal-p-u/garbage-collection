@@ -1,5 +1,6 @@
 const BookModel = require('../models/book.model')
 
+// user
 // book new
 const bookNew = async (req, res) => {
     const newOrder = new BookModel({
@@ -43,4 +44,25 @@ const getPedingOrdersAdmin = async (req, res) => {
     }
 }
 
-module.exports = { bookNew, getUserOrders, getPedingOrdersAdmin }
+// delet order
+const deleteOrder = async (req, res) => {
+    try {
+        await BookModel.findByIdAndDelete(req.params.id)
+        return res.status(200).json("Deleted successfully")
+    } catch (err) {
+        return res.status(500).json(err)
+    }
+}
+
+// modidy order
+const modifyOrder = async (req, res) => {
+    try {
+        await BookModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
+
+        return res.status(200).json('Updated successfully')
+    } catch (err) {
+        return res.status(500).json(err)
+    }
+}
+
+module.exports = { bookNew, getUserOrders, getPedingOrdersAdmin, modifyOrder, deleteOrder }
